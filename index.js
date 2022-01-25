@@ -14,7 +14,7 @@ app.get('/', (_request, response) => {
 });
 
 app.route('/products')
-  .post(Product.findByName, Product.create);
+  .post(Product.validateName, Product.findByName, Product.create);
 
 app.listen(process.env.PORT, () => {
   console.log(`Escutando na porta ${process.env.PORT}`);
