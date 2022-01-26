@@ -2,9 +2,9 @@ const Product = require('../services/ProductService');
 
 const validateName = async (req, res, next) => {
   const { name } = req.body;
-  const product = await Product.findByName(name);
+  const product = await Product.findByName({ name });
 
-  if (!name) {
+  if (!name || typeof name !== 'string') {
     return res.status(400).json({ message: '"name" is required' });
   }
 
@@ -27,8 +27,6 @@ const validateQuantity = (req, res, next) => {
     return res.status(400)
       .json({ message: '"quantity" is required' });
   }
-
-  console.log(typeof quantity);
 
   if (typeof quantity !== 'number' || quantity <= 0) {
     return res.status(422).json(
