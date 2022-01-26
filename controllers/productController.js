@@ -1,23 +1,17 @@
 const Product = require('../services/ProductService');
 
-const validateName = (req, res, next) => {
+const validateName = async (req, res, next) => {
   const { name } = req.body;
+  const product = await Product.findByName(name);
 
   if (!name) {
     return res.status(400).json({ message: '"name" is required' });
   }
 
-  if (name < 5) {
-    return res.status(422).json({ message: '"name" length must be at least 5 characters long' });
+  if (name.length < 5) {
+    return res.status(422)
+      .json({ message: '"name" length must be at least 5 characters long' });
   }
-
-  next();
-};
-
-const findByName = async (req, res, next) => {
-  const { name } = req.body;
-
-  const product = await Product.findByName(name);
 
   if (product) {
     return res.status(409).json({ message: 'Product already exists' });
@@ -26,16 +20,35 @@ const findByName = async (req, res, next) => {
   next();
 };
 
+const validateQuantity = (req, res, next) => {
+  const { quantity } = req.body;
+
+  if (quantity === undefined) {
+    return res.status(400)
+      .json({ message: '"quantity" is required' });
+  }
+
+  console.log(typeof quantity);
+
+  if (typeof quantity !== 'number' || quantity <= 0) {
+    return res.status(422).json(
+      { message: '"quantity" must be a number larger than or equal to 1' },
+    );
+  }
+
+  next();
+};
+
 const create = async (req, res) => {
   const { name, quantity } = req.body;
 
-  const product = await Product.create(name, quantity);
+  const product = await Product.create({ name, quantity });
 
-  res.status(200).json({ id: product.id, name, quantity });
+  return res.status(200).json(product);
 };
 
 module.exports = {
   create,
-  findByName,
   validateName,
+  validateQuantity,
 };

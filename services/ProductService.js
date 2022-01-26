@@ -10,10 +10,10 @@ const findByName = async (name) => {
   return true;
 };
 
-const create = async (name, quantity) => {
+const create = async ({ name, quantity }) => {
   const product = await Product.create({ name, quantity });
 
-  return product;
+  return { id: product.insertId, name, quantity };
 };
 
 module.exports = {
