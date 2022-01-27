@@ -15,10 +15,10 @@ app.get('/', (_request, response) => {
 
 app.route('/products/:id')
   .get(Product.getById)
-  .put(Product.update);
+  .put(Product.validateName, Product.validateQuantity, Product.update);
 
 app.route('/products')
-  .post(Product.validateName, Product.validateQuantity, Product.create)
+  .post(Product.validateName, Product.findByName, Product.validateQuantity, Product.create)
   .get(Product.getAll);
 
 app.listen(process.env.PORT, () => {

@@ -11,7 +11,13 @@ const validateName = async (req, res, next) => {
     return res.status(422)
       .json({ message: '"name" length must be at least 5 characters long' });
   }
-    
+
+  next();
+};
+
+const findByName = async (req, res, next) => {
+  const { name } = req.body;
+
   const product = await Product.findByName({ name });
 
   if (product) {
@@ -72,12 +78,17 @@ const update = async (req, res) => {
 
   const productUpdated = await Product.update({ id, body });
 
+  if (!productUpdated) {
+    return res.status(404).json({ message: 'Product not found' });
+  }
+
   return res.status(200).json(productUpdated);
 };
 
 module.exports = {
   create,
   validateName,
+  findByName,
   validateQuantity,
   getAll,
   getById,
