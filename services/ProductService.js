@@ -34,10 +34,17 @@ const update = async ({ id, body }) => {
   return productUpdated;
 };
 
+const deleteProduct = async ({ id }) => {
+  const product = await Product.deleteProduct({ id });
+
+  return product;
+};
+
 module.exports = {
   create,
   findByName,
   getAll,
   getById,
   update,
+  deleteProduct,
 };
