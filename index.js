@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 require('dotenv').config();
 
 const Product = require('./controllers/productController');
+const SalesController = require('./controllers/salesController');
 
 const app = express();
 
@@ -17,6 +18,9 @@ app.route('/products/:id')
   .get(Product.getById)
   .put(Product.validateName, Product.validateQuantity, Product.update)
   .delete(Product.deleteProduct);
+
+app.route('/sales')
+  .post(SalesController.salesCreate);
 
 app.route('/products')
   .post(Product.validateName, Product.findByName, Product.validateQuantity, Product.create)
