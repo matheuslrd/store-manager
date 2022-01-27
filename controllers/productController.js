@@ -2,8 +2,7 @@ const Product = require('../services/ProductService');
 
 const validateName = async (req, res, next) => {
   const { name } = req.body;
-  const product = await Product.findByName({ name });
-
+  
   if (!name || typeof name !== 'string') {
     return res.status(400).json({ message: '"name" is required' });
   }
@@ -12,6 +11,8 @@ const validateName = async (req, res, next) => {
     return res.status(422)
       .json({ message: '"name" length must be at least 5 characters long' });
   }
+    
+  const product = await Product.findByName({ name });
 
   if (product) {
     return res.status(409).json({ message: 'Product already exists' });
