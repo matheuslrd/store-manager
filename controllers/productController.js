@@ -65,10 +65,21 @@ const getById = async (req, res) => {
   return res.status(200).json(product);
 };
 
+const update = async (req, res) => {
+  let { id } = req.params;
+  const { body } = req;
+  id = Number(id);
+
+  const productUpdated = await Product.update({ id, body });
+
+  return res.status(200).json(productUpdated);
+};
+
 module.exports = {
   create,
   validateName,
   validateQuantity,
   getAll,
   getById,
+  update,
 };
