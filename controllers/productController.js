@@ -43,7 +43,7 @@ const create = async (req, res) => {
 
   const product = await Product.create({ name, quantity });
 
-  return res.status(200).json(product);
+  return res.status(201).json(product);
 };
 
 module.exports = {
