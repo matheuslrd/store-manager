@@ -52,9 +52,20 @@ const getAll = async (_req, res) => {
   return res.status(200).json(products);
 };
 
+const getById = async (req, res) => {
+  let { id } = req.params;
+
+  id = Number(id);
+
+  const product = await Product.getById({ id });
+
+  return res.status(200).json(product);
+};
+
 module.exports = {
   create,
   validateName,
   validateQuantity,
   getAll,
+  getById,
 };
