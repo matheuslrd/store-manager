@@ -31,8 +31,7 @@ const getById = async ({ id }) => {
 
 const update = async ({ id, body }) => {
   const query = 'UPDATE StoreManager.products SET name = ?, quantity = ? WHERE id = ?';
-  const [productUpdated] = await connection.execute(query, [body.name, body.quantity, id]);
-  console.log(productUpdated);
+  await connection.execute(query, [body.name, body.quantity, id]);
 
   const product = await getById({ id });
 
