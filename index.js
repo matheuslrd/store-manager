@@ -20,7 +20,7 @@ app.route('/products/:id')
   .delete(Product.deleteProduct);
 
 app.route('/sales')
-  .post(SalesController.salesCreate);
+  .post(SalesController.createSales);
 
 app.route('/products')
   .post(Product.validateName, Product.findByName, Product.validateQuantity, Product.create)
