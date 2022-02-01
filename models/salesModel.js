@@ -6,20 +6,11 @@ const connection = require('./connection');
   https://github.com/tryber/sd-014-b-store-manager/blob/ivanielson-store-manager/models/salesModel.js
 */
 
-const serialize = (product) => ({
-  productId: product.product_id,
-  quantity: product.quantity,
-});
-
-const createProductSales = async ({ body, id }) => {
-  const productList = body
-    .map(serialize)
-    .map((product) => [id, product.productId, product.quantity]);
-
+const createProductSales = async ({ products }) => {
   const query = `INSERT INTO StoreManager.sales_products 
   (sale_id, product_id, quantity) VALUE ?`;
 
-  await connection.query(query, [productList]);
+  await connection.query(query, [products]);
 };
 
 const createSale = async ({ body }) => {

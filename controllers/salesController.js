@@ -6,7 +6,7 @@ const createSales = async (req, res) => {
   const productsSales = await SalesService.createSale({ body });
   await SalesService.createSalesProducts({ body });
 
-  return res.status(200).json(productsSales);
+  return res.status(201).json(productsSales);
 };
 
 module.exports = {
