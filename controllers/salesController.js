@@ -39,8 +39,25 @@ const createSales = async (req, res) => {
   return res.status(201).json(productsSales);
 };
 
+const getAllSales = async (_req, res) => {
+  const products = await SalesService.getAllSales();
+
+  return res.status(200).json(products);
+};
+
+const getSaleById = async (req, res) => {
+  let { id } = req.params;
+  id = Number(id);
+
+  const sale = await SalesService.getSaleById({ id });
+
+  res.status(200).send(sale);
+};
+
 module.exports = {
   createSales,
   validateProductId,
   validateQuantity,
+  getAllSales,
+  getSaleById,
 };

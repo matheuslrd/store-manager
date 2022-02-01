@@ -32,7 +32,11 @@ app.route('/sales')
     SalesController.validateProductId,
     SalesController.validateQuantity,
     SalesController.createSales,
-  );
+  )
+  .get(SalesController.getAllSales);
+
+app.route('/sales/:id')
+  .get(SalesController.getSaleById);
 
 app.route('/products')
   .post(validateName, findByName, validateQuantity, create)

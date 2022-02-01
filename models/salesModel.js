@@ -20,7 +20,25 @@ const createSale = async ({ body }) => {
   return { id: row.insertId, itemsSold: body };
 };
 
+const getAllSales = async () => {
+  const query = 'SELECT * FROM StoreManager.sales';
+
+  const [products] = await connection.execute(query);
+
+  return products;
+};
+
+const getSaleById = async ({ id }) => {
+  const query = 'SELECT * FROM StoreManager.sales WHERE id = ?';
+
+  const [sales] = await connection.execute(query, [id]);
+
+  return sales[0];
+};
+
 module.exports = {
   createSale,
   createProductSales,
+  getAllSales,
+  getSaleById,
 };

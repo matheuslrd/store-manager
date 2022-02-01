@@ -19,7 +19,21 @@ const createSalesProducts = async ({ body }) => {
   await SalesModel.createProductSales({ products });
 };
 
+const getAllSales = async () => {
+  const products = await SalesModel.getAllSales();
+
+  return products;
+};
+
+const getSaleById = async ({ id }) => {
+  const sale = await SalesModel.getSaleById({ id });
+
+  return sale;
+};
+
 module.exports = {
   createSale,
   createSalesProducts,
+  getAllSales,
+  getSaleById,
 };
