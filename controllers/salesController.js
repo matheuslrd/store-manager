@@ -12,6 +12,18 @@ const validateProductId = (req, res, next) => {
   next();
 };
 
+const validateQuantity = (req, res, next) => {
+  const { body } = req;
+
+  body.forEach((product) => {
+    if (!product.quantity) {
+      return res.status(400).json({ message: '"quantity" is required' });
+    }
+  });
+
+  next();
+};
+
 const createSales = async (req, res) => {
   const { body } = req;
 
@@ -24,4 +36,5 @@ const createSales = async (req, res) => {
 module.exports = {
   createSales,
   validateProductId,
+  validateQuantity,
 };
