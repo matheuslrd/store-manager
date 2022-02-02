@@ -21,7 +21,13 @@ const createSale = async ({ body }) => {
 };
 
 const getAllSales = async () => {
-  const query = 'SELECT * FROM StoreManager.sales';
+  const query = `SELECT s.id AS saleId,
+  s.date,
+  sp.quantity,
+  sp.product_id
+  FROM StoreManager.sales as s
+  INNER JOIN StoreManager.sales_products as sp
+  ON s.id = sp.sale_id`;
 
   const [products] = await connection.execute(query);
 
