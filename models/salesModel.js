@@ -23,23 +23,30 @@ const createSale = async ({ body }) => {
 const getAllSales = async () => {
   const query = `SELECT s.id AS saleId,
   s.date,
-  sp.quantity,
-  sp.product_id
+  sp.product_id,
+  sp.quantity
   FROM StoreManager.sales as s
-  INNER JOIN StoreManager.sales_products as sp
+  JOIN StoreManager.sales_products as sp
   ON s.id = sp.sale_id`;
 
-  const [products] = await connection.execute(query);
+  const [sales] = await connection.execute(query);
 
-  return products;
+  return sales;
 };
 
 const getSaleById = async ({ id }) => {
-  const query = 'SELECT * FROM StoreManager.sales WHERE id = ?';
+  const query = `SELECT s.date,
+  sp.product_id,
+  sp.quantity
+  FROM StoreManager.sales as s
+  JOIN StoreManager.sales_products as sp
+  ON s.id = sp.sale_id
+  WHERE sp.sale_id = ?
+  ORDER BY sp.product_id`;
 
   const [sales] = await connection.execute(query, [id]);
 
-  return sales[0];
+  return sales;
 };
 
 module.exports = {

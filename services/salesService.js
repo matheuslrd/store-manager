@@ -10,8 +10,7 @@ const serialize = (product) => ({
   quantity: product.quantity,
 });
 
-const createSalesProducts = async ({ body }) => {
-  const { id } = await SalesModel.createSale({ body });
+const createSalesProducts = async ({ body, id }) => {
   const products = body
     .map(serialize)
     .map((product) => [id, product.productId, product.quantity]);

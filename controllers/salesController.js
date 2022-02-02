@@ -38,7 +38,8 @@ const createSales = async (req, res) => {
   const { body } = req;
 
   const productsSales = await SalesService.createSale({ body });
-  await SalesService.createSalesProducts({ body });
+  const { id } = productsSales;
+  await SalesService.createSalesProducts({ body, id });
 
   return res.status(201).json(productsSales);
 };
@@ -55,7 +56,11 @@ const getSaleById = async (req, res) => {
 
   const sale = await SalesService.getSaleById({ id });
 
-  res.status(200).send(sale);
+  if (!sale || sale.length === 0) {
+    return res.status(404).json({ message: 'Sale not found' });
+  }
+
+  return res.status(200).send(sale);
 };
 
 module.exports = {
