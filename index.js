@@ -36,7 +36,8 @@ app.route('/sales')
   .get(SalesController.getAllSales);
 
 app.route('/sales/:id')
-  .get(SalesController.getSaleById);
+  .get(SalesController.getSaleById)
+  .put(SalesController.updateSale);
 
 app.route('/products')
   .post(validateName, findByName, validateQuantity, create)

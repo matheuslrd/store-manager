@@ -44,6 +44,8 @@ const createSales = async (req, res) => {
   return res.status(201).json(productsSales);
 };
 
+const updateSale = (req, res) => res.status(200).send('Foi!!');
+
 const getAllSales = async (_req, res) => {
   const products = await SalesService.getAllSales();
 
@@ -69,4 +71,5 @@ module.exports = {
   validateQuantity,
   getAllSales,
   getSaleById,
+  updateSale,
 };
