@@ -63,6 +63,16 @@ const getSaleById = async (req, res) => {
   return res.status(200).send(sale);
 };
 
+const validateProductIdUpdated = (req, res, next) => {
+  const { product_id: productId } = req.body[0];
+
+  if (!productId) {
+    return res.status(400).json({ message: '"product_id" is required' });
+  }
+
+  next();
+};
+
 const updateSale = async (req, res) => {
   const { params: { id }, body } = req;
 
@@ -78,4 +88,5 @@ module.exports = {
   getAllSales,
   getSaleById,
   updateSale,
+  validateProductIdUpdated,
 };
