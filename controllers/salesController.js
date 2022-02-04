@@ -73,8 +73,25 @@ const validateProductIdUpdated = (req, res, next) => {
   next();
 };
 
+const validateQuantityUpdated = (req, res, next) => {
+  const { quantity } = req.body[0];
+
+  if (quantity === undefined) {
+    return res.status(400).json({ message: '"quantity" is required' });
+  }
+
+  if (typeof quantity !== 'number' || quantity <= 0) {
+    return res.status(400)
+      .json({ message: '"quantity" must be a number larger than or equal to 1' });
+  }
+
+  next();
+};
+
 const updateSale = async (req, res) => {
-  const { params: { id }, body } = req;
+  let { id } = req.params;
+  const { body } = req;
+  id = Number(id);
 
   const saleUpdated = await SalesService.updateSale({ id, body });
 
@@ -89,4 +106,5 @@ module.exports = {
   getSaleById,
   updateSale,
   validateProductIdUpdated,
+  validateQuantityUpdated,
 };
