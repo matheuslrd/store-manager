@@ -81,7 +81,7 @@ const validateQuantityUpdated = (req, res, next) => {
   }
 
   if (typeof quantity !== 'number' || quantity <= 0) {
-    return res.status(400)
+    return res.status(422)
       .json({ message: '"quantity" must be a number larger than or equal to 1' });
   }
 
