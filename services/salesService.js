@@ -31,7 +31,9 @@ const getSaleById = async ({ id }) => {
 };
 
 const updateSale = async ({ id, body }) => {
-  const saleUpdated = await SalesModel.updateSale({ id, body });
+  const { product_id: productId, quantity } = body[0];
+  const itemUpdate = body[0];
+  const saleUpdated = await SalesModel.updateSale({ id, productId, quantity, itemUpdate });
 
   return saleUpdated;
 };
