@@ -9,6 +9,7 @@ const connection = require('./connection');
 const createProductSales = async ({ products }) => {
   const query = `INSERT INTO StoreManager.sales_products 
   (sale_id, product_id, quantity) VALUE ?`;
+  console.log('createProductSales');
 
   await connection.query(query, [products]);
 };
@@ -16,6 +17,7 @@ const createProductSales = async ({ products }) => {
 const createSale = async ({ body }) => {
   const query = 'INSERT INTO StoreManager.sales VALUES ()';
   const [row] = await connection.execute(query);
+  console.log('createSale');
 
   return { id: row.insertId, itemsSold: body };
 };
@@ -30,6 +32,7 @@ const getAllSales = async () => {
   ON s.id = sp.sale_id`;
 
   const [sales] = await connection.execute(query);
+  console.log('getAllSales');
 
   return sales;
 };
@@ -45,6 +48,7 @@ const getSaleById = async ({ id }) => {
   ORDER BY sp.product_id`;
 
   const [sales] = await connection.execute(query, [id]);
+  console.log('getSaleById');
 
   return sales;
 };
@@ -54,6 +58,7 @@ const updateSale = async ({ id, productId, quantity, itemUpdate }) => {
   SET product_id = ?, quantity = ? WHERE sale_id = ?`;
 
   await connection.execute(query, [productId, quantity, id]);
+  console.log('updateSale');
 
   return { saleId: id, itemUpdated: [itemUpdate] };
 };
