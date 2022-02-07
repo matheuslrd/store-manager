@@ -98,6 +98,19 @@ const updateSale = async (req, res) => {
   return res.status(200).json(saleUpdated);
 };
 
+const deleteSales = async (req, res) => {
+  let { id } = req.params;
+  id = Number(id);
+
+  const sales = await SalesService.deleteSales({ id });
+
+  if (!sales || sales.length === 0) {
+    return res.status(404).json({ message: 'Sale not found' });
+  }
+
+  return res.status(200).json(sales);
+};
+
 module.exports = {
   createSales,
   validateProductId,
@@ -107,4 +120,5 @@ module.exports = {
   updateSale,
   validateProductIdUpdated,
   validateQuantityUpdated,
+  deleteSales,
 };

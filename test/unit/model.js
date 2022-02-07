@@ -3,6 +3,7 @@ const { expect } = require('chai');
 
 const connection = require('../../models/connection');
 const productModel = require('../../models/productModel');
+const salesModel = require('../../models/salesModel');
 
 describe('Produto - Criação', () => {
   const payloadProduct = {
@@ -200,3 +201,85 @@ describe('Produto - Pesquisando pelo nome', () => {
     });
   })
 });
+
+describe('Venda - Criação products sales', () => {
+  const payloadProduct = [[1, 3, 4], [3, 4, 6]];
+
+  before(() => {
+    const execute = undefined;
+
+    sinon.stub(connection, 'query').resolves(execute);
+  });
+
+  after(async () => {
+    connection.query.restore();
+  });
+
+  describe('Quando a venda é inserida com sucesso na productsSales', () => {
+    it('retorna um objeto', async () => {
+      const response = await salesModel.createProductSales(payloadProduct);
+      expect(response).to.be.an('undefined');
+    });
+  });
+});
+/* 
+describe('Venda - Criação', () => {
+  const body = [{}];
+
+  before(() => {
+    const execute = { insertId: 1, body };
+
+    sinon.stub(connection, 'execute').resolves(execute);
+  });
+
+  after(async () => {
+    connection.execute.restore();
+  });
+
+  describe('Quando a venda é inserida com sucesso na tabela sales', () => {
+    it('retorna um objeto', async () => {
+      const response = await salesModel.createSale({ body });
+      expect(response).to.be.a('object');
+    });
+  });
+}); */
+
+describe('Venda - Pegar todas as vendas', () => {
+  before(() => {
+    const execute = [[{}]];
+
+    sinon.stub(connection, 'execute').resolves(execute);
+  });
+
+  after(async () => {
+    connection.execute.restore();
+  });
+
+  describe('Quando as vendas são retornadas com sucesso', () => {
+    it('retorna um array', async () => {
+      const response = await salesModel.getAllSales();
+      expect(response).to.be.a('array');
+    });
+  });
+});
+
+/* describe('Venda - Pegar venda por id', () => {
+  const payloadProduct = { id: 1 };
+
+  before(() => {
+    const execute = { id: 1 };
+
+    sinon.stub(connection, 'execute').resolves(execute);
+  });
+
+  after(async () => {
+    connection.execute.restore();
+  });
+
+  describe('Quando a venda é retornada com sucesso', () => {
+    it('retorna um objeto', async () => {
+      const response = await salesModel.getSaleById(payloadProduct);
+      console.log(response);
+    });
+  });
+}); */

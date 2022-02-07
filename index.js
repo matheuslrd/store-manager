@@ -41,7 +41,8 @@ app.route('/sales/:id')
     SalesController.validateProductIdUpdated,
     SalesController.validateQuantityUpdated,
     SalesController.updateSale,
-    );
+  )
+  .delete(SalesController.deleteSales);
 
 app.route('/products')
   .post(validateName, findByName, validateQuantity, create)
