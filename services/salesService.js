@@ -26,7 +26,6 @@ const getAllSales = async () => {
 
 const getSaleById = async ({ id }) => {
   const sale = await SalesModel.getSaleById({ id });
-  console.log('dsakdsjkdsa');
 
   return sale;
 };
@@ -35,7 +34,6 @@ const updateSale = async ({ id, body }) => {
   const { product_id: productId, quantity } = body[0];
   const itemUpdate = body[0];
   const saleUpdated = await SalesModel.updateSale({ id, productId, quantity, itemUpdate });
-  console.log('dsakdsjkdsa');
 
   return saleUpdated;
 };
