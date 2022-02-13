@@ -207,12 +207,14 @@ describe('--------PRODUTO-------', () => {
 
 describe('--------VENDA-------', () => {
   describe('Venda - Criação products sales', () => {
-    const payloadProduct = [[1, 3, 4], [3, 4, 6]];
+    const payloadSale = {
+      products: [[1, 1, 4]]
+    };
 
     before(() => {
-      const execute = undefined;
+      const query = undefined;
 
-      sinon.stub(connection, 'query').resolves(execute);
+      sinon.stub(connection, 'query').resolves(query);
     });
 
     after(async () => {
@@ -221,7 +223,7 @@ describe('--------VENDA-------', () => {
 
     describe('Quando a venda é inserida com sucesso na productsSales', () => {
       it('retorna um objeto', async () => {
-        const response = await salesModel.createProductSales(payloadProduct);
+        const response = await salesModel.createProductSales(payloadSale);
         expect(response).to.be.an('undefined');
       });
     });
@@ -282,11 +284,11 @@ describe('--------VENDA-------', () => {
     });
   });
 
-  /* describe('Venda - Pegar venda por id', () => {
-    const payloadProduct = { id: 1 };
+  describe('Venda - Pegar venda por id', () => {
+    const payloadSale = { id: 1 };
   
     before(() => {
-      const execute = { id: 1 };
+      const execute = [{ id: 1 }];
   
       sinon.stub(connection, 'execute').resolves(execute);
     });
@@ -295,12 +297,74 @@ describe('--------VENDA-------', () => {
       connection.execute.restore();
     });
   
-    describe('Quando a venda é retornada com sucesso', () => {
+    describe('quando a venda é retornada com sucesso', () => {
       it('retorna um objeto', async () => {
-        const response = await salesModel.getSaleById(payloadProduct);
-        console.log(response);
+        const response = await salesModel.getSaleById(payloadSale);
+
+        expect(response).to.be.a('object');
+      });
+
+      it('quando o objeto retornado contém a propriedade id', async () => {
+        const response = await salesModel.getSaleById(payloadSale);
+
+        expect(response).to.have.a.property('id');
       });
     });
-  }); */
+  });
+
+  describe('Venda - Atualiza venda por id', () => {
+    const payloadSale = {
+      id: 1,
+      productId: 3,
+      quantity: 10,
+      itemUpdate: {},
+    };
+
+    before(() => {
+      const execute = [{ saleId: 1, itemUpdated: {} }];
+  
+      sinon.stub(connection, 'execute').resolves(execute);
+    });
+  
+    after(async () => {
+      connection.execute.restore();
+    });
+
+    describe('Quando a venda é atualizada com sucesso', () => {
+      it('retorna um objeto', async () => {
+        const response = await salesModel.updateSale(payloadSale);
+
+        expect(response).to.be.a('object');
+      });
+
+      it('objeto retornado tem a propriedade saleId', async () => {
+        const response = await salesModel.updateSale(payloadSale);
+
+        expect(response).to.have.a.property('saleId');
+      });
+    });
+  });
+
+  describe('Venda - Deleta venda por id', () => {
+    const payloadSale = { id: 1 };
+
+    before(() => {
+      const execute = [{ id: 1 }];
+  
+      sinon.stub(connection, 'execute').resolves(execute);
+    });
+  
+    after(async () => {
+      connection.execute.restore();
+    });
+
+    describe('Quando a venda é deletada com sucesso', () => {
+      it('retorna o objeto deletado', async () => {
+        const response = await salesModel.deleteSales(payloadSale);
+
+        expect(response).to.be.a('object');
+      });
+    });
+  });
 
 });
