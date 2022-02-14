@@ -25,6 +25,7 @@ const executeTests = async () => {
 };
 
 describe('Testes das camadas Model, Service e Controller', () => {
+  jest.setTimeout(20000);
   beforeEach(async() => {
     await executeTests();
   })
