@@ -2,7 +2,9 @@ const sinon = require('sinon');
 const { expect } = require('chai');
 
 const ProductService = require('../../services/ProductService');
+const ProductModel = require('../../models/productModel');
 const SalesService = require('../../services/salesService');
+const SalesModel = require('../../models/salesModel');
 
 describe('--------PRODUTO-------', () => {
   describe('Produto - Criação', () => {
@@ -18,12 +20,12 @@ describe('--------PRODUTO-------', () => {
         quantity: 2,
       }
 
-      sinon.stub(ProductService, 'create')
+      sinon.stub(ProductModel, 'create')
         .resolves(productCreated);
     });
 
     after(() => {
-      ProductService.create.restore();
+      ProductModel.create.restore();
     });
 
     describe('quando é inserido com sucesso', () => {
@@ -45,7 +47,7 @@ describe('--------PRODUTO-------', () => {
 
   describe('Produto - Atualizacao do produto pelo id', () => {
     const id = 1;
-    const payloadProduct = {
+    const body = {
       name: 'Produto',
       quantity: 2,
     }
@@ -57,18 +59,17 @@ describe('--------PRODUTO-------', () => {
         quantity: 2,
       }
 
-      sinon.stub(ProductService, 'update')
-        .resolves(productUpdated);
+      sinon.stub(ProductModel, 'update').resolves(productUpdated);
     });
 
     after(() => {
-      ProductService.update.restore();
+      ProductModel.update.restore();
     });
 
     describe('quando é atualizado com sucesso', () => {
 
       it('retorna um objeto', async () => {
-        const response = await ProductService.update({ id, name: payloadProduct.name, quantity: payloadProduct.quantity });
+        const response = await ProductService.update({ id, body });
 
         expect(response).to.be.a('object');
       });
@@ -83,11 +84,11 @@ describe('--------PRODUTO-------', () => {
         id: 1,
       };
 
-      sinon.stub(ProductService, 'getById').resolves(getById);
+      sinon.stub(ProductModel, 'getById').resolves(getById);
     });
 
     after(() => {
-      ProductService.getById.restore();
+      ProductModel.getById.restore();
     });
 
     describe('Quando acha o produto', () => {
@@ -105,17 +106,17 @@ describe('--------PRODUTO-------', () => {
     before(() => {
       const findByName = true;
 
-      sinon.stub(ProductService, 'findByName')
+      sinon.stub(ProductModel, 'findByName')
         .resolves(findByName);
     });
 
     after(() => {
-      ProductService.findByName.restore();
+      ProductModel.findByName.restore();
     });
 
     describe('quando acha o produto com sucesso', () => {
 
-      it('retorna um boolean', async () => {
+      it('retorna um boolean true', async () => {
         const response = await ProductService.findByName(payloadProduct);
 
         expect(response).to.be.a('boolean');
@@ -128,12 +129,12 @@ describe('--------PRODUTO-------', () => {
     before(() => {
       const productList = [{}];
 
-      sinon.stub(ProductService, 'getAll')
+      sinon.stub(ProductModel, 'getAll')
         .resolves(productList);
     });
 
     after(() => {
-      ProductService.getAll.restore();
+      ProductModel.getAll.restore();
     });
 
     describe('quando lista os produtos com sucesso', () => {
@@ -152,17 +153,17 @@ describe('--------PRODUTO-------', () => {
     before(() => {
       const productList = { id: 1 };
 
-      sinon.stub(ProductService, 'deleteProduct')
+      sinon.stub(ProductModel, 'deleteProduct')
         .resolves(productList);
     });
 
     after(() => {
-      ProductService.deleteProduct.restore();
+      ProductModel.deleteProduct.restore();
     });
 
     describe('quando lista os produtos com sucesso', () => {
       it('retorna um array de objeto', async () => {
-        const response = await ProductService.deleteProduct();
+        const response = await ProductService.deleteProduct({ id });
 
         expect(response).to.be.a('object');
       });
@@ -185,11 +186,11 @@ describe('--------VENDA-------', () => {
         itemsSold: [{}],
       }
 
-      sinon.stub(SalesService, 'createSale').resolves(salesCreated);
+      sinon.stub(SalesModel, 'createSale').resolves(salesCreated);
     });
 
     after(() => {
-      SalesService.createSale.restore();
+      SalesModel.createSale.restore();
     });
 
     describe('quando é inserido com sucesso', () => {
@@ -211,11 +212,11 @@ describe('--------VENDA-------', () => {
         quantity: 2
       }];
 
-      sinon.stub(SalesService, 'getAllSales').resolves(getAllSales);
+      sinon.stub(SalesModel, 'getAllSales').resolves(getAllSales);
     });
 
     after(() => {
-      SalesService.getAllSales.restore();
+      SalesModel.getAllSales.restore();
     });
 
     describe('quando a listagem é concluida com sucesso', () => {
@@ -233,11 +234,11 @@ describe('--------VENDA-------', () => {
     before(() => {
       const getSaleById = { saleId: 1 };
 
-      sinon.stub(SalesService, 'getSaleById').resolves(getSaleById);
+      sinon.stub(SalesModel, 'getSaleById').resolves(getSaleById);
     });
 
     after(() => {
-      SalesService.getSaleById.restore();
+      SalesModel.getSaleById.restore();
     });
 
     describe('quando é encontrado a venda com sucesso', () => {
@@ -250,23 +251,52 @@ describe('--------VENDA-------', () => {
     });
   });
 
-  describe('Venda - Pegar venda por id', () => {
-    const payloadSale = { id: 1 };
+  describe('Venda - Atualizar venda', () => {
+    const payloadSale = {
+      id: 1,
+      body: [{
+        product_id: 1,
+        quantity: 3,
+      }],
+    };
 
     before(() => {
-      const getSaleById = { saleId: 1 };
+      const updateSale = { saleId: 1, itemUpdated: [{}] };
 
-      sinon.stub(SalesService, 'getSaleById').resolves(getSaleById);
+      sinon.stub(SalesModel, 'updateSale').resolves(updateSale);
     });
 
     after(() => {
-      SalesService.getSaleById.restore();
+      SalesModel.updateSale.restore();
     });
 
-    describe('quando é encontrado a venda com sucesso', () => {
+    describe('quando é atualizado a venda com sucesso', () => {
 
       it('retorna um objeto', async () => {
-        const response = await SalesService.getSaleById(payloadSale);
+        const response = await SalesService.updateSale(payloadSale);
+
+        expect(response).to.be.a('object');
+      });
+    });
+  });
+
+  describe('Venda - Deletar venda', () => {
+    const payloadSale = { id: 1 };
+
+    before(() => {
+      const deleteSales = { id: 1 };
+
+      sinon.stub(SalesModel, 'deleteSales').resolves(deleteSales);
+    });
+
+    after(() => {
+      SalesModel.deleteSales.restore();
+    });
+
+    describe('quando é deletado a venda com sucesso', () => {
+
+      it('retorna um objeto', async () => {
+        const response = await SalesService.deleteSales(payloadSale);
 
         expect(response).to.be.a('object');
       });
