@@ -12,6 +12,7 @@ const {
     create,
     getAll } = require('./controllers/productController');
 const SalesController = require('./controllers/salesController');
+const { error } = require('./middleware/error');
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.route('/sales')
     SalesController.validateProductId,
     SalesController.validateQuantity,
     SalesController.createSales,
+    error,
   )
   .get(SalesController.getAllSales);
 

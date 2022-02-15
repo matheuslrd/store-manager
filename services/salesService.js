@@ -1,8 +1,21 @@
 const SalesModel = require('../models/salesModel');
+const ProductModel = require('../models/productModel');
+
+const validate = (statusCode, message) => ({ statusCode, message });
 
 const createSale = async ({ body }) => {
-  const salesProducts = await SalesModel.createSale({ body });
-  return salesProducts;
+  const isValidSale = body.map(async (sale) => {
+    const { quantity } = sale;
+
+    const product = await ProductModel.getById({ id: sale.product_id });
+
+    if (quantity > product.quantity) {
+      throw validate(422, 'Such amount is not permitted to sell');
+    }
+    return sale;
+  });
+  
+  return Promise.all(isValidSale).then((result) => SalesModel.createSale({ body: result }));
 };
 
 const serialize = (product) => ({

@@ -34,14 +34,19 @@ const validateQuantity = (req, res, next) => {
   next();
 };
 
-const createSales = async (req, res) => {
+const createSales = async (req, res, next) => {
   const { body } = req;
 
-  const productsSales = await SalesService.createSale({ body });
-  const { id } = productsSales;
-  await SalesService.createSalesProducts({ body, id });
+  try {
+    const createSale = await SalesService.createSale({ body });
+    const { id } = createSale;
 
-  return res.status(201).json(productsSales);
+    await SalesService.createSalesProducts({ body, id });
+    
+    return res.status(201).json(createSale);
+  } catch (error) {
+    next(error);
+  }
 };
 
 const getAllSales = async (_req, res) => {
