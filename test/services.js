@@ -1,10 +1,10 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
 
-const ProductService = require('../../services/ProductService');
-const ProductModel = require('../../models/productModel');
-const SalesService = require('../../services/salesService');
-const SalesModel = require('../../models/salesModel');
+const ProductService = require('../services/ProductService');
+const ProductModel = require('../models/productModel');
+const SalesService = require('../services/salesService');
+const SalesModel = require('../models/salesModel');
 
 describe('--------PRODUTO-------', () => {
   describe('Produto - Criação', () => {

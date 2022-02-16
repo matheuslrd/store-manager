@@ -11,38 +11,11 @@ const createProductSales = async ({ products }) => {
   (sale_id, product_id, quantity) VALUE ?`;
 
   await connection.query(query, [products]);
-  console.log(query);
-  console.log('update');
-  console.log('Update');
-  console.log('String');
-  console.log('update');
-  console.log('Update');
-  console.log('String');
-  console.log('Update');
-  console.log('update');
-  console.log('Update');
-  console.log('String');
-  console.log('Update');
 };
 
 const createSale = async ({ body }) => {
   const query = 'INSERT INTO StoreManager.sales VALUES ()';
   const [row] = await connection.execute(query);
-  console.log(row);
-  console.log('update');
-  console.log('Update');
-  console.log('String');
-  console.log('update');
-  console.log('Update');
-  console.log('String');
-  console.log('Update');
-  console.log('update');
-  console.log('Update');
-  console.log('String');
-  console.log('Update');
-  console.log('update');
-  console.log('Update');
-  console.log('String');
 
   return { id: row.insertId, itemsSold: body };
 };
@@ -55,17 +28,7 @@ const getAllSales = async () => {
   FROM StoreManager.sales as s
   JOIN StoreManager.sales_products as sp
   ON s.id = sp.sale_id`;
-
   const [sales] = await connection.execute(query);
-  console.log(sales);
-  console.log('update');
-  console.log('Update');
-  console.log('String');
-  console.log('Update');
-  console.log('update');
-  console.log('Update');
-  console.log('String');
-  console.log('Update');
 
   return sales;
 };
@@ -79,16 +42,7 @@ const getSaleById = async ({ id }) => {
   ON s.id = sp.sale_id
   WHERE sp.sale_id = ?
   ORDER BY sp.product_id`;
-
   const [sales] = await connection.execute(query, [id]);
-  console.log(sales);
-  console.log('update');
-  console.log('Update');
-  console.log('String');
-  console.log('update');
-  console.log('Update');
-  console.log('String');
-  console.log('update');
 
   return sales;
 };
@@ -96,18 +50,7 @@ const getSaleById = async ({ id }) => {
 const updateSale = async ({ id, productId, quantity, itemUpdate }) => {
   const query = `UPDATE StoreManager.sales_products
   SET product_id = ?, quantity = ? WHERE sale_id = ?`;
-
   await connection.execute(query, [productId, quantity, id]);
-  console.log(query);
-  console.log('update');
-  console.log('Update');
-  console.log('String');
-  console.log('update');
-  console.log('Update');
-  console.log('String');
-  console.log('update');
-  console.log('Update');
-  console.log('String');
 
   return { saleId: id, itemUpdated: [itemUpdate] };
 };
@@ -117,16 +60,6 @@ const deleteSales = async ({ id }) => {
 
   const query = 'DELETE FROM StoreManager.sales_products WHERE `sale_id` = ?';
   await connection.execute(query, [id]);
-  console.log(sales);
-  console.log('update');
-  console.log('Update');
-  console.log('String');
-  console.log('update');
-  console.log('Update');
-  console.log('String');
-  console.log('update');
-  console.log('Update');
-  console.log('String');
 
   return sales;
 };
